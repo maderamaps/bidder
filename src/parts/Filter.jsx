@@ -49,7 +49,7 @@ const Filter = () => {
             </div>
 
             <div className="form-group">
-                <Button className="btn px-5 form-control" hasShadow isPrimary type="submit">Filter</Button >
+                <Button className="btn px-5 form-control" hasShadow isPrimary >Filter</Button >
             </div>
 
            
