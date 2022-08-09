@@ -259,7 +259,7 @@ header{
 
   .grid-container {
     display: grid;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: 25% 25% 25% 25%;
   }
   .grid-item {
     padding: 10px;
@@ -277,4 +277,28 @@ header{
     width: 100%;
     height:100%;
     border-radius: 20px;
+}
+
+.divImgInp {
+    padding: 20%; 
+    border: 3px outset;
+    cursor: pointer;
+    transition: 1s;
+}
+
+.divImgInp:hover {
+    border: 3px inset;
+}
+
+.divImgInp svg {
+    width: 60px;
+}
+
+.divImgInp .svgDelete {
+    opacity: 0.2;
+}
+
+.divImgInp:hover .svgDelete{
+    opacity: 1;
+    fill:rgba(255, 0, 0, 0.662);
 }

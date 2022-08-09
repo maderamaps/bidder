@@ -20,8 +20,8 @@ export default function Button(props) {
       <span className={className.join(" ")} style={props.style}>
         {props.isLoading ? (
           <>
-            <span className="spinner-border spinner-border-sm mx-5"></span>
-            <span className="sr-only">Loading...</span>
+            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
           </>
         ) : (
           props.children
@@ -38,7 +38,7 @@ export default function Button(props) {
           className={className.join(" ")}
           style={props.style}
           target={props.target === "_blank" ? "_blank" : undefined}
-          rel={props.target === "_blank" ? "noopener noreferrer" : undefined}
+          rel="noopener noreferrer"
         >
           {props.children}
         </a>

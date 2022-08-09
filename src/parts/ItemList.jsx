@@ -2,36 +2,41 @@ import React from "react";
 import Button from "../elements/Button";
 import { numberWithCommas } from "../utils";
 
- const ItemLIst = (data) => {
-  console.log(data)
+ const ItemList = (items) => {
+  console.log(items)
     return (
       <section className="container">
         <h4 className="mb-3 font-weight-medium">Browse</h4>
         <div className="grid-container gap-3">
 
-          {data.length === 0 ? (
+          {items.data === 0 ? (
             <div className="row">
               <div className="col-auto align-items-center">
+                {console.log('no item')}
                 There is no item
               </div>
             </div>
           ) : (
-            data.map((item, index) => {
+            items.data.map((item, index) => {
                 return (
-                    <div className="card-category " style={{border:"1px solid #e9ecef", borderRadius:"5%"}}>
+                    <div className="card-category " style={{border:"1px solid #e9ecef", borderRadius:"5%"}} key={index}>
                         <figure className="img-wrapper" style={{ height: 180 }}>
-                            <img src={item.imgUrl} alt={item.name} className="img-cover" />
+                            <img src={item.ITM_IMAGE} alt={item.ITM_TITLE} className="img-cover" />
                         </figure>
                         <div className="meta-wrapper" style={{padding: "2px 8px"}}>
                             <Button
                                 type="link"
-                                href={`/properties`}
+                                href={`/item/${item.ITM_ID}`}
                                 className="stretched-link d-block text-gray-800"
+                                style={{ textDecoration: "none"}}
                             >
-                                <h5 className="h4" style={{fontSize:"16px"}}>{item.title}</h5>
+                                <h5 className="h4" style={{fontSize:"16px", color:"black"}}>{item.ITM_TITLE}</h5>
                             </Button>
                             <span className="text-gray-500" style={{fontSize:"13px"}}>
-                                {/* Rp. {numberWithCommas(item.price)}  */}
+                                {item.CAT_NAME}
+                            </span>
+                            <span className="text-gray-500" style={{fontSize:"13px", float:"right"}}>
+                                Rp. {numberWithCommas(item.ITM_PRICE)} 
                             </span>
                         </div>
                     </div>
@@ -44,4 +49,4 @@ import { numberWithCommas } from "../utils";
 
 }
 
-export default ItemLIst
+export default ItemList

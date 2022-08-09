@@ -62,7 +62,7 @@ export default function LiveBid(data) {
            {data.data.bid.map((bid,index) => {
               return <div
                   className="cardlive"
-                  style={{ height: 250, background: "#EEE" }}
+                  style={{ height: 250, background: "#EEE" }} key={index}
                 >
                   <div style={{ padding: 10 }}>
                     <img
