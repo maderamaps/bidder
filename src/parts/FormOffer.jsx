@@ -6,7 +6,6 @@ import axios from "axios";
 
 const FormOffer = (items) => {
   const [imgFile, setImgFile] = useState({});
-  const [tempImgFile, setTempImgFile] = useState({});
   const [rangeMin, setRangeMin] = useState(0);
   const [rangeMax, setRangeMax] = useState(0);
   const [filterName, setFilterName] = useState("");
@@ -16,12 +15,9 @@ const FormOffer = (items) => {
   let tempRangeMax = null;
 
   useEffect(() => {
-    resetState();
-    console.log('state');
     console.log(imgFile);
-    console.log(Object.keys(tempImgFile).length)
 
-  }, []);
+  }, [imgFile]);
 
   const handleChangeRangeMin = (event) => {
     setRangeMin(event.target.value);
@@ -48,13 +44,13 @@ const FormOffer = (items) => {
       .get(
         // "http://localhost/api-bidder/public/api/getItemFilter/"+filterName+"/"+filterKategori+"/"+rangeMin+"/"+rangeMax
         "http://localhost/api-bidder/public/api/getItemFilter?filterName=" +
-          filterName +
-          "&&filterKategori=" +
-          filterKategori +
-          "&&filterRangeMin=" +
-          rangeMin +
-          "&&filterRangeMax=" +
-          tempRangeMax
+        filterName +
+        "&&filterKategori=" +
+        filterKategori +
+        "&&filterRangeMin=" +
+        rangeMin +
+        "&&filterRangeMax=" +
+        tempRangeMax
       )
       .then((result) => {
         setIsLoading(false);
@@ -75,28 +71,20 @@ const FormOffer = (items) => {
   };
 
   const removeImg = (id) => {
-    console.log(id)
 
-    setTempImgFile(imgFile);
-    delete tempImgFile['file'+id];
-    
-    console.log(tempImgFile)
+    delete imgFile['file' + id];
+    let temp = []
+    Object.values(imgFile).map((data, index) => {
+      let key = "file" + index;
+      temp = {
+        ...temp,
+        [key]: data,
+      };
+    })
+    setImgFile(temp)
 
-    setImgFile({});
-    
   };
 
-  const resetState = () => {
-    console.log(Object.keys(tempImgFile).length)
-    Object.values(tempImgFile).map((test, index) => {
-        let key = "file" + index;
-        console.log(test)
-        setImgFile({
-            ...imgFile,
-            [key]: test,
-          });
-    })
-  }
 
   return (
     <section
@@ -158,16 +146,14 @@ const FormOffer = (items) => {
                 />
               </div>
             )}
-          </div>
+          </div><br></br>
 
           <div className="form-group">
-            <input
-              className="form-control"
-              type="search"
-              name="filterName"
-              placeholder="search"
-              onChange={(e) => setFilterName(e.target.value)}
-            />
+            <select className="form-select" aria-label="Default select example">
+              <option selected>Select Category</option>
+              <option value="automotive">Automotive</option>
+              <option value="handphone">Handphone</option>
+            </select>
             <br></br>
           </div>
 
@@ -175,54 +161,29 @@ const FormOffer = (items) => {
             <input
               className="form-control"
               type="text"
-              name="filterKategori"
-              placeholder="kategori"
-              onChange={(e) => setFilterKategori(e.target.value)}
+              name="title"
+              placeholder="Title"
+              onChange={(e) => setFilterName(e.target.value)}
             />
             <br></br>
           </div>
 
-          <div className="form-group">
-            <small>
-              Min. Price Rp.{" "}
-              <small
-                dangerouslySetInnerHTML={{ __html: numberWithCommas(rangeMin) }}
-              />
-            </small>
-            <input
-              className="form-control"
-              id="filterRangeMin"
-              type="range"
-              min="0"
-              max="99999999"
-              step={10000}
-              onChange={(event) => handleChangeRangeMin(event)}
-            ></input>
+          <div className="input-group mb-3">
+            <span className="input-group-text">Rp.</span>
+            <input type="number" className="form-control" placeholder="Start Bid" />
             <br></br>
           </div>
 
           <div className="form-group">
-            <small>
-              Max. Price Rp.{" "}
-              <small
-                dangerouslySetInnerHTML={{
-                  __html: numberWithCommas(
-                    rangeMax < rangeMin ? rangeMin : rangeMax
-                  ),
-                }}
-              />
-            </small>
-            <input
-              className="form-control"
-              id="filterRangeMax"
-              type="range"
-              min={rangeMin}
-              max="99999999"
-              step={10000}
-              onChange={(event) => handleChangeRangeMax(event)}
-            ></input>
+            <textarea className="form-control"
+              type="text"
+              name="price"
+              placeholder="Description"
+              rows={3}></textarea>
             <br></br>
           </div>
+
+
 
           <div className="form-group">
             <Button
@@ -231,7 +192,7 @@ const FormOffer = (items) => {
               hasShadow
               isPrimary
             >
-              Filter
+              Submit
             </Button>
           </div>
         </form>

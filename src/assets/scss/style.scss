@@ -259,7 +259,7 @@ header{
 
   .grid-container {
     display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-columns: auto auto auto auto auto;
   }
   .grid-item {
     padding: 10px;
