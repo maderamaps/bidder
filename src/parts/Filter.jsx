@@ -41,9 +41,9 @@ const Filter =  ({stateChanger, ...rest}) => {
       //       `);
 
       // eslint-disable-next-line no-unused-expressions
-      (rangeMax !== '0')? (tempRangeMax=rangeMax, console.log('range max = '+tempRangeMax)) : tempRangeMax=document.getElementById("filterRangeMax").max;
+      (rangeMax !== 0)? (tempRangeMax=rangeMax, console.log('range max = '+tempRangeMax)) : tempRangeMax=document.getElementById("filterRangeMax").max;
       // eslint-disable-next-line no-unused-expressions
-      (rangeMin !== '0' && rangeMin > rangeMax)? (tempRangeMax=rangeMin, console.log('rangeMin > rangeMax')): console.log('rangeMin < rangeMax');
+      (rangeMin !== 0 && rangeMin > rangeMax)? (tempRangeMax=rangeMin, console.log('rangeMin > rangeMax')): console.log('rangeMin < rangeMax');
 
       await axios.get(
         

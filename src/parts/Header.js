@@ -32,7 +32,7 @@ export default function Header(props) {
                     Stories
                   </Button>
                 </li>
-                <li className={`nav-item ${getNavLinkClass("/offer")}`}>
+                {/* <li className={`nav-item ${getNavLinkClass("/offer")}`}>
                     <Button className="nav-link btn btn-success" type="link" href="offer" style={{color:"white"}}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -42,6 +42,16 @@ export default function Header(props) {
                         <path strokeWidth="50" stroke="#ffff" d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z" />
                       </svg>
                       <b>&nbsp;Offer</b>
+                    </Button>
+                </li> */}
+                <li className={`nav-item ${getNavLinkClass("/login")}`}>
+                    <Button className="nav-link btn" type="link" href="login" style={{color:"white", backgroundColor:"#254BD8"}}>
+                      <b>Log In</b>
+                    </Button>
+                </li>
+                <li className={`nav-item ${getNavLinkClass("/register")}`}>
+                    <Button className="nav-link btn" type="link" href="register" style={{color:"white", marginLeft:"10px", backgroundColor:"#808080"}}>
+                      <b>Sign Up</b>
                     </Button>
                 </li>
               </ul>
