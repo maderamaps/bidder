@@ -4,42 +4,20 @@ import Button from "../elements/Button";
 import { numberWithCommas } from "../utils";
 import axios from "axios";
 
-import TextField from "@mui/material/TextField";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-
 const FormOffer = (items) => {
   const [imgFile, setImgFile] = useState({});
-  const [tempImgFile, setTempImgFile] = useState({});
   const [rangeMin, setRangeMin] = useState(0);
   const [rangeMax, setRangeMax] = useState(0);
   const [filterName, setFilterName] = useState("");
   const [filterKategori, setFilterKategori] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [startDate, setStartDate] = React.useState(null);
-  const [endDate, setEndDate] = React.useState(null);
+
   let tempRangeMax = null;
 
   useEffect(() => {
-    resetState();
-    console.log('state');
     console.log(imgFile);
-<<<<<<< Updated upstream
-    console.log(Object.keys(tempImgFile).length)
 
-  }, []);
-=======
   }, [imgFile]);
->>>>>>> Stashed changes
 
   const handleChangeRangeMin = (event) => {
     setRangeMin(event.target.value);
@@ -66,13 +44,13 @@ const FormOffer = (items) => {
       .get(
         // "http://localhost/api-bidder/public/api/getItemFilter/"+filterName+"/"+filterKategori+"/"+rangeMin+"/"+rangeMax
         "http://localhost/api-bidder/public/api/getItemFilter?filterName=" +
-          filterName +
-          "&&filterKategori=" +
-          filterKategori +
-          "&&filterRangeMin=" +
-          rangeMin +
-          "&&filterRangeMax=" +
-          tempRangeMax
+        filterName +
+        "&&filterKategori=" +
+        filterKategori +
+        "&&filterRangeMin=" +
+        rangeMin +
+        "&&filterRangeMax=" +
+        tempRangeMax
       )
       .then((result) => {
         setIsLoading(false);
@@ -82,31 +60,10 @@ const FormOffer = (items) => {
   const uploadSingleFile = (e, id) => {
     let index = Object.keys(imgFile).length;
     let key = "file" + index;
-    let extension = e.target.files[0].type;
-    // console.log(e.target.files[0].type)
-    if (!extension.match("image")) {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "top",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener("mouseenter", Swal.stopTimer);
-          toast.addEventListener("mouseleave", Swal.resumeTimer);
-        },
-      });
-
-      Toast.fire({
-        icon: "error",
-        title: "Please select valid image",
-      });
-    } else {
-      setImgFile({
-        ...imgFile,
-        [key]: URL.createObjectURL(e.target.files[0]),
-      });
-    }
+    setImgFile({
+      ...imgFile,
+      [key]: URL.createObjectURL(e.target.files[0]),
+    });
   };
 
   const clickInput = (id) => {
@@ -114,44 +71,21 @@ const FormOffer = (items) => {
   };
 
   const removeImg = (id) => {
-<<<<<<< Updated upstream
-    console.log(id)
 
-    setTempImgFile(imgFile);
-    delete tempImgFile['file'+id];
-    
-    console.log(tempImgFile)
-
-    setImgFile({});
-    
-  };
-
-  const resetState = () => {
-    console.log(Object.keys(tempImgFile).length)
-    Object.values(tempImgFile).map((test, index) => {
-        let key = "file" + index;
-        console.log(test)
-        setImgFile({
-            ...imgFile,
-            [key]: test,
-          });
-    })
-  }
-
-=======
-    delete imgFile["file" + id];
-    let temp = [];
+    delete imgFile['file' + id];
+    let temp = []
     Object.values(imgFile).map((data, index) => {
       let key = "file" + index;
       temp = {
         ...temp,
         [key]: data,
       };
-    });
-    setImgFile(temp);
+    })
+    setImgFile(temp)
+
   };
 
->>>>>>> Stashed changes
+
   return (
     <section
       className="container pt-4 pb-4"
@@ -212,160 +146,45 @@ const FormOffer = (items) => {
                 />
               </div>
             )}
+          </div><br></br>
+
+          <div className="form-group">
+            <select className="form-select" aria-label="Default select example">
+              <option selected>Select Category</option>
+              <option value="automotive">Automotive</option>
+              <option value="handphone">Handphone</option>
+            </select>
+            <br></br>
           </div>
-<<<<<<< Updated upstream
 
           <div className="form-group">
             <input
               className="form-control"
-              type="search"
-              name="filterName"
-              placeholder="search"
+              type="text"
+              name="title"
+              placeholder="Title"
               onChange={(e) => setFilterName(e.target.value)}
             />
             <br></br>
-=======
-          <br></br>
-
-          <div className="form-group">
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Category</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Category"
-              >
-                <MenuItem value="">-</MenuItem>
-                <MenuItem value="automotive">Automotive</MenuItem>
-                <MenuItem value="handphone">Handphone</MenuItem>
-              </Select>
-            </FormControl>
->>>>>>> Stashed changes
           </div>
-          <br></br>
 
-          <div className="form-group">
-            <TextField
-              fullWidth
-              type="text"
-<<<<<<< Updated upstream
-              name="filterKategori"
-              placeholder="kategori"
-              onChange={(e) => setFilterKategori(e.target.value)}
-=======
-              id="outlined-basic"
-              name="title"
-              label="Title"
-              variant="outlined"
-              onChange={(e) => setFilterName(e.target.value)}
->>>>>>> Stashed changes
-            />
-          </div>
-          <br></br>
-
-<<<<<<< Updated upstream
-          <div className="form-group">
-            <small>
-              Min. Price Rp.{" "}
-              <small
-                dangerouslySetInnerHTML={{ __html: numberWithCommas(rangeMin) }}
-              />
-            </small>
-            <input
-              className="form-control"
-              id="filterRangeMin"
-              type="range"
-              min="0"
-              max="99999999"
-              step={10000}
-              onChange={(event) => handleChangeRangeMin(event)}
-            ></input>
-=======
           <div className="input-group mb-3">
             <span className="input-group-text">Rp.</span>
-            <input
-              type="number"
-              className="form-control"
-              placeholder="Start Bid"
-            />
->>>>>>> Stashed changes
+            <input type="number" className="form-control" placeholder="Start Bid" />
             <br></br>
           </div>
 
           <div className="form-group">
-<<<<<<< Updated upstream
-            <small>
-              Max. Price Rp.{" "}
-              <small
-                dangerouslySetInnerHTML={{
-                  __html: numberWithCommas(
-                    rangeMax < rangeMin ? rangeMin : rangeMax
-                  ),
-                }}
-              />
-            </small>
-            <input
-              className="form-control"
-              id="filterRangeMax"
-              type="range"
-              min={rangeMin}
-              max="99999999"
-              step={10000}
-              onChange={(event) => handleChangeRangeMax(event)}
-            ></input>
+            <textarea className="form-control"
+              type="text"
+              name="price"
+              placeholder="Description"
+              rows={3}></textarea>
             <br></br>
-=======
-            <TextField
-              fullWidth
-              id="outlined-multiline-static"
-              label="Description"
-              multiline
-              rows={4}
-            />
->>>>>>> Stashed changes
           </div>
-          <br></br>
 
-<<<<<<< Updated upstream
-=======
-          <div className="form-group">
-            <div
-              className="row col-lg-12 col-md-12 col-sm-12"
-              style={{ margin: "0px" }}
-            >
-              <div className="col-md-6" style={{ paddingLeft: "0px" }}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    label="Start Bid Date"
-                    value={startDate}
-                    onChange={(newValue) => {
-                      setStartDate(newValue);
-                    }}
-                    renderInput={(params) => (
-                      <TextField {...params} fullWidth />
-                    )}
-                  />
-                </LocalizationProvider>
-              </div>
-              <div className="col-md-6" style={{ paddingRight: "0px" }}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DatePicker
-                    label="End Bid Date"
-                    value={endDate}
-                    onChange={(newValue) => {
-                      setEndDate(newValue);
-                    }}
-                    renderInput={(params) => (
-                      <TextField {...params} fullWidth />
-                    )}
-                  />
-                </LocalizationProvider>
-              </div>
-            </div>
-          </div>
-          <br></br>
 
->>>>>>> Stashed changes
+
           <div className="form-group">
             <Button
               className="btn form-control"
@@ -373,7 +192,7 @@ const FormOffer = (items) => {
               hasShadow
               isPrimary
             >
-              Filter
+              Submit
             </Button>
           </div>
         </form>

@@ -5,6 +5,7 @@ import BrowserPage from "../pages/BrowserPage";
 import ItemPage from "../pages/ItemPage";
 import OfferPage from "../pages/OfferPage";
 import RegisterPage from "../pages/RegisterPage";
+import LoginPage from "../pages/LoginPage";
 import { AnimatePresence } from "framer-motion";
 
 function AnimatedRoutes() {
@@ -17,6 +18,7 @@ function AnimatedRoutes() {
         <Route path="/item/:id" element={<ItemPage />} />
         <Route path="/offer" element={<OfferPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </AnimatePresence>
   );

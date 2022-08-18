@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
+import {useNavigate} from 'react-router-dom';
 import Button from "../elements/Button";
-import { numberWithCommas } from "../utils";
 import axios from "axios";
 
 import TextField from "@mui/material/TextField";
@@ -9,10 +9,13 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { string } from "yup";
+import { useDispatch } from "react-redux";
 
 const FormRegister = (items) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [birthdate, setBirthdate] = useState(null);
-  const [helperTextPassword, setSelperTextPassword] = useState(null);
+  const [helperTextPassword, setHelperTextPassword] = useState(null);
   const [errorPassword, setErrorPassword] = useState(false);
   const [inputPassword, setInputPassword] = useState("");
   const [inputConfirmPassword, setInputConfirmPassword] = useState("");
@@ -47,8 +50,7 @@ const FormRegister = (items) => {
     //end validation rules
   };
 
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     // eslint-disable-next-line no-unused-expressions
@@ -57,11 +59,11 @@ const FormRegister = (items) => {
       () =>
         passwordInputRef.current.value !== confirmPasswordInputRef.current.value
           ? (setErrorPassword(true),
-            setSelperTextPassword("password not match"))
+            setHelperTextPassword("password not match"))
           : (setErrorPassword(false),
-            setSelperTextPassword(""),
+            setHelperTextPassword(""),
             setIsLoading(false)),
-      5000
+      2000
     );
     return () => clearTimeout(timeOutId);
   }, [inputPassword]);
@@ -73,11 +75,11 @@ const FormRegister = (items) => {
       () =>
         passwordInputRef.current.value !== confirmPasswordInputRef.current.value
           ? (setErrorPassword(true),
-            setSelperTextPassword("password not match"))
+            setHelperTextPassword("password not match"))
           : (setErrorPassword(false),
-            setSelperTextPassword(""),
+            setHelperTextPassword(""),
             setIsLoading(false)),
-      3000
+      2000
     );
     return () => clearTimeout(timeOutId);
   }, [inputConfirmPassword]);
@@ -98,9 +100,22 @@ const FormRegister = (items) => {
       })
       .then(function (response) {
         console.log(response);
+        console.log(response.data.user.USER_ID);
+        dispatch({
+          type: "REGISTER",
+          id: response.data.user.USER_ID,
+          name: response.data.user.USER_NAME,
+          email: response.data.user.USER_EMAIL,
+          birthdate: response.data.user.USER_BIRTHDATE,
+          token: response.data.token,
+        });
         setIsLoading(false);
+        navigate('/');
+
       })
       .catch(function (error) {
+        setErrorPassword(true)
+        setHelperTextPassword("password not match")
         console.log(error);
         setIsLoading(false);
       });
@@ -116,7 +131,7 @@ const FormRegister = (items) => {
       }}
     >
       <div className="row align-items-center">
-        <h2>Form Register</h2>
+        <h2>Register</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <TextField
@@ -212,7 +227,7 @@ const FormRegister = (items) => {
               hasShadow
               isPrimary
             >
-              Submit
+              Register
             </Button>
           </div>
         </form>
