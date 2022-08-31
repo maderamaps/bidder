@@ -50,10 +50,11 @@ const FormLogin = (items) => {
     event.preventDefault();
     axios.defaults.withCredentials = true
     await axios
-    .get("http://localhost/api-bidder/public/sanctum/csrf-cookie")
+    .get("../sanctum/csrf-cookie")
     .then(function (response) {
+      console.log(response);
       axios
-      .post("http://localhost/api-bidder/public/api/login", {
+      .post("/login", {
         withCredentials: true, 
         email: emailInputRef.current.value,
         password: passwordInputRef.current.value,       
@@ -70,7 +71,9 @@ const FormLogin = (items) => {
                 birthdate: response.data.user.USER_BIRTHDATE,
                 token: response.data.token,
               });
-              document.cookie = "token=" +response.data.token
+              // document.cookie = "token" +response.data.token;
+              axios.defaults.headers.common['Authorization'] = `Bearer `+response.data.token;
+              
               navigate('/');
         }
         setIsLoading(false);

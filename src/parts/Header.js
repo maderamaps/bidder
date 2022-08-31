@@ -14,13 +14,15 @@ export default function Header(props) {
   };
 
   const logout = async () =>{
+    
     axios.defaults.withCredentials = true
+    dispatch({
+      type: "LOGOUT",
+    })
     await axios
-      .get("http://localhost/api-bidder/public/api/postLogout", { headers: {"Authorization" : `Bearer ${token}`} })
+      .get("/postLogout")
       .then(function (response) {
-        dispatch({
-          type: "LOGOUT",
-        })
+        axios.defaults.headers.common['Authorization'] = ``;
       })
       .catch(function (error) {
         console.log(error);

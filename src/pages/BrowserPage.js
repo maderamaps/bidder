@@ -15,7 +15,7 @@ const BrowserPage = () => {
     const fetchData = async () => {
       setIsLoading(true);
       await axios
-        .get("http://localhost/api-bidder/public/api/getItemAll" , { headers: {"Authorization" : `Bearer ${token}`} })
+        .get("/getItemAll")
         .then((result) => {
           setDataItem(result.data);
           setIsLoading(false);

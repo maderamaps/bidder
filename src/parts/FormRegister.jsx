@@ -109,6 +109,8 @@ const FormRegister = (items) => {
           birthdate: response.data.user.USER_BIRTHDATE,
           token: response.data.token,
         });
+        axios.defaults.headers.common['Authorization'] = `Bearer `+response.data.token;
+        axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
         setIsLoading(false);
         navigate('/');
 
