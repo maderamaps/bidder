@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import Button from "../elements/Button";
 import axios from "axios";
 
@@ -91,34 +91,40 @@ const FormRegister = (items) => {
     console.log("birthday: " + birthdateInputRef.current.value);
 
     await axios
-      .post("http://localhost/api-bidder/public/api/postRegister", {
-        name: nameInputRef.current.value,
-        email: emailInputRef.current.value,
-        birthdate: birthdateInputRef.current.value,
-        password: passwordInputRef.current.value,
-        confirmPassword: confirmPasswordInputRef.current.value,
-      })
+      .get("../sanctum/csrf-cookie")
       .then(function (response) {
-        console.log(response);
-        console.log(response.data.user.USER_ID);
-        dispatch({
-          type: "REGISTER",
-          id: response.data.user.USER_ID,
-          name: response.data.user.USER_NAME,
-          email: response.data.user.USER_EMAIL,
-          birthdate: response.data.user.USER_BIRTHDATE,
-          token: response.data.token,
-        });
-        axios.defaults.headers.common['Authorization'] = `Bearer `+response.data.token;
-        axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-        setIsLoading(false);
-        navigate('/');
-
+        axios
+          .post("http://localhost/api-bidder/public/api/postRegister", {
+            name: nameInputRef.current.value,
+            email: emailInputRef.current.value,
+            birthdate: birthdateInputRef.current.value,
+            password: passwordInputRef.current.value,
+            confirmPassword: confirmPasswordInputRef.current.value,
+          })
+          .then(function (response) {
+            console.log(response);
+            console.log(response.data.user.USER_ID);
+            dispatch({
+              type: "REGISTER",
+              id: response.data.user.USER_ID,
+              name: response.data.user.USER_NAME,
+              email: response.data.user.USER_EMAIL,
+              birthdate: response.data.user.USER_BIRTHDATE,
+              token: response.data.token,
+            });
+            axios.defaults.headers.common["Authorization"] =
+              `Bearer ` + response.data.token;
+            setIsLoading(false);
+            navigate("/");
+          })
+          .catch(function (error) {
+            setErrorPassword(true);
+            setHelperTextPassword("password not match");
+            console.log(error);
+            setIsLoading(false);
+          });
       })
       .catch(function (error) {
-        setErrorPassword(true)
-        setHelperTextPassword("password not match")
-        console.log(error);
         setIsLoading(false);
       });
   };

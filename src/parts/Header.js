@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import Button from "../elements/Button";
 import BrandIcon from "./IconText";
@@ -7,29 +7,31 @@ import axios from "axios";
 
 export default function Header(props) {
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.TOKEN)
-  const USER_ID = useSelector((state) => state.USER_ID)
+  const token = useSelector((state) => state.TOKEN);
+  const USER_ID = useSelector((state) => state.USER_ID);
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    getNavLinkClass(window.location.pathname);
+  }, [active]);
+
   const getNavLinkClass = (path) => {
     return window.location.pathname === path ? "active" : "";
   };
 
-  const logout = async () =>{
-    
-    axios.defaults.withCredentials = true
+  const logout = async () => {
+    axios.defaults.withCredentials = true;
     dispatch({
       type: "LOGOUT",
-    })
+    });
     await axios
       .get("/postLogout")
       .then(function (response) {
-        axios.defaults.headers.common['Authorization'] = ``;
+        axios.defaults.headers.common["Authorization"] = ``;
       })
       .catch(function (error) {
         console.log(error);
       });
-
-      
-  }
+  };
 
   return (
     <header className="spacing-sm">
@@ -40,17 +42,20 @@ export default function Header(props) {
             <div className="col col-lg-5 col-md-5 col-sm-0"></div>
             <div className="col col-lg-7 col-md-7 col-sm-12">
               <ul className="navbar-nav ml-auto">
-                <li className={`nav-item ${getNavLinkClass("/")}`}>
+                <li className={`nav-item ${getNavLinkClass("/")}`} onClick={() => setActive("/")}>
                   <Button className="nav-link" type="link" href="/">
                     Home
                   </Button>
                 </li>
-                <li className={`nav-item ${getNavLinkClass("/browse-by")}`}>
+                <li
+                  className={`nav-item ${getNavLinkClass("/browse-by")}`}
+                  onClick={() => setActive("/browse-by")}
+                >
                   <Button className="nav-link" type="link" href="browse-by">
                     Browse By
                   </Button>
                 </li>
-                <li className={`nav-item ${getNavLinkClass("/stories")}`}>
+                <li className={`nav-item ${ (active==="/stories") ? 'active' : null }`}>
                   <Button className="nav-link" type="link" href="stories">
                     Stories
                   </Button>
@@ -58,7 +63,7 @@ export default function Header(props) {
 
                 {useSelector((state) => state.USER_ID) !== "" ? (
                   <>
-                    <li className={`nav-item ${getNavLinkClass("/offer")}`}>
+                    <li className={`nav-item ${ (active==="/") ? 'active' : null }`}>
                       <Button
                         className="nav-link btn btn-success"
                         type="link"
@@ -80,14 +85,12 @@ export default function Header(props) {
                       </Button>
                     </li>
 
-                    <li className={`nav-item ${getNavLinkClass("/logout")}`}>
+                    <li className={`nav-item `}>
                       <Button
                         className="nav-link btn"
                         type="link"
                         href="/"
-                        onClick={() =>
-                          logout()
-                        }
+                        onClick={() => logout()}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +104,7 @@ export default function Header(props) {
                   </>
                 ) : (
                   <>
-                    <li className={`nav-item ${getNavLinkClass("/login")}`}>
+                    <li className={`nav-item`}>
                       <Button
                         className="nav-link btn"
                         type="link"
@@ -111,7 +114,7 @@ export default function Header(props) {
                         <b>Log In</b>
                       </Button>
                     </li>
-                    <li className={`nav-item ${getNavLinkClass("/register")}`}>
+                    <li className={`nav-item`}>
                       <Button
                         className="nav-link btn"
                         type="link"

@@ -4,7 +4,7 @@ import Button from "../elements/Button";
 import { numberWithCommas } from "../utils";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
-import MenuItem from '@mui/material/MenuItem';
+import MenuItem from "@mui/material/MenuItem";
 
 const FormOffer = (items) => {
   const [imgFile, setImgFile] = useState({});
@@ -14,32 +14,36 @@ const FormOffer = (items) => {
   const categoryIdInputRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
 
-
   useEffect(() => {
     console.log(imgFile);
   }, [imgFile]);
-
-
 
   const handleSubmitOffer = async (event) => {
     setIsLoading(true);
     event.preventDefault();
 
-
-    await axios.post("/postItem" , {
-      categoryId: categoryIdInputRef.current.value,
-      title: titleInputRef.current.value,
-      price: priceInputRef.current.value,
-      description: descriptionInputRef.current.value,
-    }).then(function (response) {
-      console.log(response);     
-      setIsLoading(false);
-
-    })
-    .catch(function (error) {
-      console.log(error);
-      setIsLoading(false);
-    });
+    await axios
+      .get("../sanctum/csrf-cookie")
+      .then(function (response) {
+        axios
+          .post("/postItem", {
+            categoryId: categoryIdInputRef.current.value,
+            title: titleInputRef.current.value,
+            price: priceInputRef.current.value,
+            description: descriptionInputRef.current.value,
+          })
+          .then(function (response) {
+            console.log(response);
+            setIsLoading(false);
+          })
+          .catch(function (error) {
+            console.log(error);
+            setIsLoading(false);
+          });
+      })
+      .catch(function (error) {
+        setIsLoading(false);
+      });
   };
 
   const uploadSingleFile = (e, id) => {
@@ -141,11 +145,11 @@ const FormOffer = (items) => {
               select
               inputRef={categoryIdInputRef}
             >
-              <MenuItem  value="" disabled>
+              <MenuItem value="" disabled>
                 Select Category
-              </MenuItem >
-              <MenuItem  value="1">Automotive</MenuItem >
-              <MenuItem  value="2">Handphone</MenuItem >
+              </MenuItem>
+              <MenuItem value="1">Automotive</MenuItem>
+              <MenuItem value="2">Handphone</MenuItem>
             </TextField>
             <br></br>
           </div>
@@ -175,7 +179,7 @@ const FormOffer = (items) => {
           </div>
 
           <div className="form-group mb-3">
-          <TextField
+            <TextField
               className="form-control"
               type="text"
               name="Description"
